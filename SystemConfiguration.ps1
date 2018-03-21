@@ -1,14 +1,14 @@
 ﻿### Variables
 $TimeStamp = Get-Date
 $ScriptDir = "C:\SystemConfiguration\"
-$GPODir = $ScriptDir + "\Extracted\GPOBackup"
+$GPODir = $ScriptDir + "\Extracted\SystemConfiguration\GPO_Backup"
 $ZIPFileName = 'SystemConfiguration.ZIP'
 # Create script Folder
-New-Item -Path $ScriptDir -ItemType Directory -ErrorAction Continue
+New-Item -Path $ScriptDir -ItemType Directory -ErrorAction SilentlyContinue
 # Create Folder for logging
 $LogDir = $ScriptDir + "\Log\"
 $LogFile = $LogDir +  "Script.log"
-New-Item -Path $LogDir -ItemType Directory -ErrorAction Continue
+New-Item -Path $LogDir -ItemType Directory -ErrorAction SilentlyContinue
 
 # Functions
 Function LogWrite {
@@ -22,13 +22,13 @@ LogWrite "$TimeStamp - Script started"
 
 # Search for the latest ZIP File
 $customScriptPath = 'C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.9\Downloads' 
-$ZIPFile = Get-Childitem –Path $customScriptPath -Include $ZIPFileName -Recurse | Select -Last 1
+$ZIPFile = Get-Childitem –Path $customScriptPath -Include $ZIPFileName -Recurse | Select-Object -Last 1
 Copy-Item $ZIPFile $ScriptDir
 
 ### Proces the ZIP file
 $ZIPSrc = $ScriptDir + $ZIPFileName
 $ZIPDst = $ScriptDir + 'Extracted\'
-New-Item -Path $ZIPDst -ItemType Directory -ErrorAction Continue
+New-Item -Path $ZIPDst -ItemType Directory -ErrorAction SilentlyContinue
 $TimeStamp = Get-Date
 LogWrite "$timeStamp - Zip file = $ZIPFile"
 LogWrite "$TimeStamp - ZIP Source is:$ZIPSrc"
