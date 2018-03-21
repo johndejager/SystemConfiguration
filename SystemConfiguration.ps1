@@ -106,8 +106,8 @@ if ($OSVersion -eq "Microsoft Windows Server 2012 R2 Datacenter") {
     ### Restore GPO Backup with OS vulnerability fixes
     $TimeStamp = Get-Date
     LogWrite "$TimeStamp Started with GPO Restore"
-    $LGPOCMD = $GPODir + "\LGPO\LGPO.exe"
-    $GPOPath = $GPODir + "\GPO_BACKUP\WS-2012R2"
+    $LGPOCMD = $ZIPDst + "SystemConfiguration\LGPO\LGPO.exe" 
+    $GPOPath = $GPODir + "\WS-2012R2"
     $ARG = "/g", $GPOPath
     Start-Process -FilePath $LGPOCMD -ArgumentList $ARG
 
@@ -150,7 +150,7 @@ elseif ($OSVersion -eq "Microsoft Windows Server 2016 Datacenter") {
     $TimeStamp = Get-Date
     LogWrite "$TimeStamp Started with GPO Restore"
     $LGPOCMD = $ZIPDst + "SystemConfiguration\LGPO\LGPO.exe" 
-    $GPOPath = $GPODir + "\GPO_BACKUP\WS-2016"
+    $GPOPath = $GPODir + "\WS-2016"
     $ARG = "/g", $GPOPath
     Start-Process -FilePath $LGPOCMD -ArgumentList $ARG
 }
