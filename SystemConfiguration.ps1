@@ -1,13 +1,13 @@
 ﻿### Variables
 $TimeStamp = Get-Date
-$ScriptDir = "C:\OS_Vulnerabilities\"
-$GPODir = "C:\OS_Vulnerabilities\Extracted\OS_Vulnerabilities"
-
+$ScriptDir = "C:\SystemConfiguration\"
+$GPODir = $ScriptDir + "\Extracted\GPOBackup"
+$ZIPFileName = 'SystemConfiguration.ZIP'
 # Create script Folder
 New-Item -Path $ScriptDir -ItemType Directory -ErrorAction Continue
 # Create Folder for logging
-$LogDir = "C:\OS_Vulnerabilities\Log"
-$LogFile = "C:\OS_Vulnerabilities\Log\Script.log"
+$LogDir = $ScriptDir + "\Log\"
+$LogFile = $LogDir +  "Script.log"
 New-Item -Path $LogDir -ItemType Directory -ErrorAction Continue
 
 # Functions
@@ -22,13 +22,12 @@ LogWrite "$TimeStamp - Script started"
 
 # Search for the latest ZIP File
 $customScriptPath = 'C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.9\Downloads' 
-$ZIPFile = Get-Childitem –Path $customScriptPath -Include *.ZIP -Recurse 
-$ZIPFile.DirectoryName
+$ZIPFile = Get-Childitem –Path $customScriptPath -Include $ZIPFileName -Recurse | Select -Last 1
 Copy-Item $ZIPFile $ScriptDir
 
 ### Proces the ZIP file
-$ZIPSrc = $ScriptDir + $ZIPFile.Name
-$ZIPDst = $ScriptDir + '\Extracted\'
+$ZIPSrc = $ScriptDir + $ZIPFileName
+$ZIPDst = $ScriptDir + 'Extracted\'
 New-Item -Path $ZIPDst -ItemType Directory -ErrorAction Continue
 $TimeStamp = Get-Date
 LogWrite "$timeStamp - Zip file = $ZIPFile"
@@ -154,5 +153,4 @@ elseif ($OSVersion -eq "Microsoft Windows Server 2016 Datacenter") {
     $GPOPath = $GPODir + "\GPO_BACKUP\WS-2016"
     $ARG = "/g", $GPOPath
     Start-Process -FilePath $LGPOCMD -ArgumentList $ARG
-
 }
