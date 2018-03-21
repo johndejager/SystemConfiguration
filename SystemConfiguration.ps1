@@ -1,7 +1,7 @@
 ﻿### Variables
 $TimeStamp = Get-Date
 $ScriptDir = "C:\SystemConfiguration\"
-$GPODir = $ScriptDir + "\Extracted\SystemConfiguration\GPO_Backup"
+$GPODir = $ScriptDir + "Extracted\SystemConfiguration\GPO_Backup"
 $ZIPFileName = 'SystemConfiguration.ZIP'
 # Create script Folder
 New-Item -Path $ScriptDir -ItemType Directory -ErrorAction SilentlyContinue
